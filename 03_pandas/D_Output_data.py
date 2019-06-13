@@ -10,7 +10,7 @@ import numpy as np
 import os
 import sqlite3
 
-path_guardado = '/Users/usrdel/Documents/GitHub/py-eguez-sarzosa-vicente-adrian/03_Pandas/data/csv/artwork_data.pickle'
+path_guardado = 'C://Users/Sergio/Documents/GitHub/py-villacres-lizano-sergio-wladimir/03_pandas/data/artwork'
 
 df_completo_pickle = pd.read_pickle(path_guardado)
 
