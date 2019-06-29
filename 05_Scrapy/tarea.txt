@@ -1,0 +1,25 @@
+scrapy shell 'https://www.fybeca.com/FybecaWeb/pages/search-results.jsf?cat=447&s=0&pp=25')
+
+
+nombres = response.css('.product-tile-inner > .name::text').extract()
+import numpy as np
+nombres = np.array(nombres)
+
+precio = list(map(lambda x: x.split(')')[0][12:] , response.css('div.side > div.price::attr(data-bind)').extract()))
+precio
+len(precio)
+precio = np.array(precio,dtype='float32')
+precio
+
+
+precio_desc = list( map(lambda x: x.split(')')[0][12:],response.css('div.price-member > div::attr(data-bind)').extract()))
+precio_desc = np.array(precio_descuento,dtype='float32')
+descuentos = precio - precio_desc
+
+
+mayor_Descuento = nombres[descuentos==descuentos.max()]
+mayor_Descuento
+
+precio[nombres==mayor_Descuento[0]] 
+
+precio_desc[nombres==mayor_Descuento[0]]
