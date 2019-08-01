@@ -1,16 +1,24 @@
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-
+def getUrls():
+    base_url = 'https://celulares.mercadolibre.com.ec/'
+    arreglo_urls = []
+    arreglo_urls.append(base_url)
+    base_url = 'https://celulares.mercadolibre.com.ec/_Desde_changeThis'
+    for url in range(51,1951,50):
+        arreglo_urls.append(base_url.replace('changeThis',str(url)))
+        print(url)
+    return arreglo_urls
 class AraniaCrawlOnu(CrawlSpider):
     name = 'libros_mis'  # Heredado (conservar nombre)
     
     allowed_domains = [  # Heredado (conservar nombre)
-        'books.toscrape.com'
+        'celulares.mercadolibre.com.ec'
     ]
-    start_urls = [  # Heredado (conservar nombre)
-        'http://books.toscrape.com/'
-    ]
+     start_urls = getUrls() #[  # Heredado (conservar nombre)
+    #     'https://celulares.mercadolibre.com.ec/'
+    # ]
     # Heredado (conservar nombre)
 
     regla_uno = (
@@ -36,7 +44,7 @@ class AraniaCrawlOnu(CrawlSpider):
         Rule(
             LinkExtractor(
                 allow_domains=allowed_domains,
-                allow=('catalogue/category/books/mystery_3/','catalogue/category/books/fantasy_19/'),
+                allow=('_ItemTypeID_N'),
             ), callback='parse_page')
         ,
     )
@@ -46,8 +54,8 @@ class AraniaCrawlOnu(CrawlSpider):
 
 
     def parse_page(self, response):
-        lista_programas = response.css('article.product_pod>h3>a::attr(title)').extract()
+        lista_programas = response.css('div.item__info-container.highlighted>div>h2>a>span.main-title::text').extract()
 
         for agencia in lista_programas:
-            with open('misterio_fantasia.txt', 'a+') as archivo:
+            with open('productos.txt', 'a+') as archivo:
                 archivo.write(agencia + '\n')
